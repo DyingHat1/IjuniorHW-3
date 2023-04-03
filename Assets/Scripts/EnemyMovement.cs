@@ -28,12 +28,7 @@ public class EnemyMovement : MonoBehaviour
     private void Update()
     {
         Transform target = _points[_currentPoint];
-
-        if (target.position.x < transform.position.x)
-            _isEnemyFacingRight = false;
-        else
-            _isEnemyFacingRight = true;
-
+        _isEnemyFacingRight = target.position.x >= transform.position.x;
         _animator.SetBool(EnemyFacingRight, _isEnemyFacingRight);
         transform.position = Vector3.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
 
