@@ -6,12 +6,11 @@ public class CoinSpawner : MonoBehaviour
 {
     [SerializeField] private CoinTaker _coin;
 
-    private const string CloneString = "(Clone)";
-
     private Transform[] _spawnPoints;
     private int _currentPointIndex;
     private int _previousPointIndex;
     private int _spawnPointsCount;
+    private bool _isCoinOnScene;
 
     private void Start()
     {
@@ -19,8 +18,10 @@ public class CoinSpawner : MonoBehaviour
         _previousPointIndex = -1;
         _spawnPointsCount = transform.childCount;
         _spawnPoints = new Transform[_spawnPointsCount];
-        
-        for(int i = 0; i < _spawnPointsCount; i++)
+        _isCoinOnScene = false;
+
+
+        for (int i = 0; i < _spawnPointsCount; i++)
         {
             _spawnPoints[i] = transform.GetChild(i);
         }
@@ -28,16 +29,25 @@ public class CoinSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (GameObject.Find(_coin.gameObject.name + CloneString) == null)
-        {
-            StartCoroutine(SpawnCoin());
-        }
+        _isCoinOnScene = CheckCoins();
+
+        if (_isCoinOnScene == false)
+            SpawnCoin();
     }
 
-    private IEnumerator SpawnCoin()
+    private bool CheckCoins()
     {
-        StopAllCoroutines();
+        foreach (Transform spawnPoint in _spawnPoints)
+        {
+            if (spawnPoint.childCount > 0)
+                return true;
+        }
 
+        return false;
+    }
+
+    private void SpawnCoin()
+    {
         while (_currentPointIndex == _previousPointIndex)
         {
             _currentPointIndex = Random.Range(0, _spawnPointsCount);
@@ -45,7 +55,5 @@ public class CoinSpawner : MonoBehaviour
 
         Instantiate(_coin, _spawnPoints[_currentPointIndex]);
         _previousPointIndex = _currentPointIndex;
-
-        yield return null;
     }
 }

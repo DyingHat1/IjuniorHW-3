@@ -8,13 +8,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpHeight;
     [SerializeField] private Animator _animator;
+    [SerializeField] private Rigidbody2D _rigidbody2D;
 
     private const string AllRunButtonsOffBool = "AllButtonsOff";
     private const string PlayerOnGroundBool = "PlayerOnGround";
     private const string PlayerFacingRightBool = "PlayerFacingRight";
 
     private float _jumpForce;
-    private Rigidbody2D _rigidbody2D;
     private bool _playerIsStanding;
     private bool _playerHasJumped;
     private Vector2 _jumpVector;
@@ -26,7 +26,6 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetBool(PlayerFacingRightBool, true);
         _animator.SetBool(PlayerOnGroundBool, true);
         _animator.SetBool(AllRunButtonsOffBool, false);
-        _rigidbody2D = GetComponent<Rigidbody2D>();
         _jumpForce = Mathf.Sqrt(_jumpHeight * (-2) * (Physics2D.gravity.y * _rigidbody2D.gravityScale));
         _jumpVector = new Vector2(0, _jumpForce);
     }
