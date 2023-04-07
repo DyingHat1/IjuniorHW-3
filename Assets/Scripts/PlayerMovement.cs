@@ -77,13 +77,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer(Direction direction)
     {
-        bool isPlayerFacingRight;
-
-        if ((int)direction > 0)
-            isPlayerFacingRight = true;
-        else
-            isPlayerFacingRight = false;
-
+        bool isPlayerFacingRight = (int)direction > 0;
         _animator.SetBool(AllRunButtonsOffBool, false);
         transform.Translate((int)direction * _speed * Time.deltaTime, 0, 0);
         _animator.SetBool(PlayerFacingRightBool, isPlayerFacingRight);
